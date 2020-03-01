@@ -4,7 +4,7 @@ An 8 bit homebuilt entertainment system
 For this project i've taken inspiration from existing CPUs I read about. Mainly the 6502, 6809, BMOW1, and Gigatron. The final system should have capabilities similar to or exceeding the original NES and C64.
 
 #### CPU:
-* [Architecture Diagram](./docs/j8ger-arch.pne)
+* [Architecture Diagram](./docs/j8ger-arch.png)
 * 3Mhz Clock Speed
 * 8bit ALU with ADD, SUB, AND, OR, XOR
 * 1MB RAM (Bank Switched)
