@@ -22,12 +22,12 @@
       <elementName>Button</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>RIGHT</string>
-        </entry>
-        <entry>
           <string>mapToKey</string>
           <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>RIGHT</string>
         </entry>
       </elementAttributes>
       <pos x="100" y="200"/>
@@ -61,44 +61,9 @@
       <pos x="220" y="420"/>
     </visualElement>
     <visualElement>
-      <elementName>8bitRegister.dig</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Label</string>
-          <string>X</string>
-        </entry>
-      </elementAttributes>
-      <pos x="1560" y="80"/>
-    </visualElement>
-    <visualElement>
-      <elementName>8bitRegister.dig</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Label</string>
-          <string>Y</string>
-        </entry>
-      </elementAttributes>
-      <pos x="1560" y="240"/>
-    </visualElement>
-    <visualElement>
-      <elementName>8bitRegister.dig</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Label</string>
-          <string>A</string>
-        </entry>
-      </elementAttributes>
-      <pos x="1560" y="400"/>
-    </visualElement>
-    <visualElement>
-      <elementName>8bitRegister.dig</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Label</string>
-          <string>T</string>
-        </entry>
-      </elementAttributes>
-      <pos x="1560" y="560"/>
+      <elementName>DataRegisters.dig</elementName>
+      <elementAttributes/>
+      <pos x="1200" y="20"/>
     </visualElement>
   </visualElements>
   <wires>
