@@ -54,12 +54,12 @@
       <elementName>Clock</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>CLK</string>
-        </entry>
-        <entry>
           <string>runRealTime</string>
           <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>CLK</string>
         </entry>
       </elementAttributes>
       <pos x="240" y="300"/>
@@ -69,7 +69,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>ELHB</string>
+          <string>~ELHB</string>
         </entry>
       </elementAttributes>
       <pos x="240" y="340"/>
@@ -79,7 +79,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>ERHB</string>
+          <string>~ERHB</string>
         </entry>
       </elementAttributes>
       <pos x="240" y="380"/>
@@ -89,7 +89,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>W</string>
+          <string>~W</string>
         </entry>
       </elementAttributes>
       <pos x="240" y="420"/>
@@ -112,12 +112,12 @@
       <elementName>74377.dig</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>Register</string>
-        </entry>
-        <entry>
           <string>shapeType</string>
           <shapeType>LAYOUT</shapeType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>Register</string>
         </entry>
       </elementAttributes>
       <pos x="460" y="220"/>
@@ -247,12 +247,12 @@
       <elementName>74245.dig</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>LHB-OUT</string>
-        </entry>
-        <entry>
           <string>shapeType</string>
           <shapeType>LAYOUT</shapeType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LHB-OUT</string>
         </entry>
       </elementAttributes>
       <pos x="820" y="420"/>
