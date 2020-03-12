@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <circuit>
   <version>1</version>
-  <attributes/>
+  <attributes>
+    <entry>
+      <string>Width</string>
+      <int>4</int>
+    </entry>
+  </attributes>
   <visualElements>
     <visualElement>
       <elementName>Text</elementName>
@@ -71,12 +76,12 @@ Outputs:
       <elementName>Clock</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>CLK</string>
-        </entry>
-        <entry>
           <string>runRealTime</string>
           <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>CLK</string>
         </entry>
       </elementAttributes>
       <pos x="-640" y="180"/>
@@ -113,12 +118,12 @@ Outputs:
       <elementName>74245.dig</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>MB-LOW</string>
-        </entry>
-        <entry>
           <string>shapeType</string>
           <shapeType>LAYOUT</shapeType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>MB-LOW</string>
         </entry>
       </elementAttributes>
       <pos x="840" y="-100"/>
@@ -291,12 +296,12 @@ Outputs:
       <elementName>74161.dig</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>LOW-0</string>
-        </entry>
-        <entry>
           <string>shapeType</string>
           <shapeType>SIMPLE</shapeType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LOW-0</string>
         </entry>
       </elementAttributes>
       <pos x="20" y="-80"/>
@@ -1177,6 +1182,26 @@ Outputs:
       </elementAttributes>
       <pos x="1060" y="420"/>
     </visualElement>
+    <visualElement>
+      <elementName>PullUp</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Bits</string>
+          <int>4</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-220" y="-80"/>
+    </visualElement>
+    <visualElement>
+      <elementName>PullUp</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Bits</string>
+          <int>4</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-220" y="20"/>
+    </visualElement>
   </visualElements>
   <wires>
     <wire>
@@ -1966,6 +1991,14 @@ Outputs:
     <wire>
       <p1 x="520" y="-80"/>
       <p2 x="520" y="180"/>
+    </wire>
+    <wire>
+      <p1 x="-220" y="-80"/>
+      <p2 x="-220" y="-40"/>
+    </wire>
+    <wire>
+      <p1 x="-220" y="20"/>
+      <p2 x="-220" y="40"/>
     </wire>
     <wire>
       <p1 x="380" y="260"/>
