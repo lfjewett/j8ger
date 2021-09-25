@@ -1,0 +1,39 @@
+0x69:
+  decimal: 105
+  syntax: ADC #$44
+  description: Add with carry the A Register and the Immediate Value
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 2
+  cycles: 2
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, A_OUT_LHB, LATCHALL, ALU_ADD, ALU_OUT, A_LD, PC_INC, EOC ]
+
+0x6d:
+  decimal: 109
+  syntax: ADC $4400
+  description: Add with carry the A Register and value at the Absolute memory address
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH, PC_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, A_OUT_LHB, LATCHALL, ALU_ADD, ALU_OUT, A_LD, EOC ]
+
+0x7d:
+  decimal: 125
+  syntax: ADC $4400,X
+  description: Add with Carry Absolute,X
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, X_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, ICIN, ALU_ADD, ALU_OUT, MAR_LDH, PC_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, A_OUT_LHB, LATCHALL, ALU_ADD, ALU_OUT, A_LD, EOC]

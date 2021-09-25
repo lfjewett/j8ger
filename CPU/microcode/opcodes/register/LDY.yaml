@@ -1,0 +1,11 @@
+0xa0:
+  decimal: 160
+  syntax: LDY #$44
+  description: Load the Y Register with the immediate Value
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 2
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, LATCHNZ, Y_LD, PC_INC, EOC ]

@@ -1,0 +1,76 @@
+0xa9:
+  decimal: 169
+  syntax: LDA #$44
+  description: Load the A register with an Immediate value
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 2
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]  
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, LATCHNZ, A_LD, PC_INC, EOC ]
+
+0xa5:
+  decimal: 165
+  syntax: LDA $44
+  description: Load the A register with an Zero Page value
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 3
+  mode: Zero Page
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, MAR_LOW, RAM_OUT, RH_PASS, LATCHNZ, A_LD, EOC ]
+
+0xad:
+  decimal: 173
+  syntax: LDA $4400
+  description: Load the A register with Absolute value
+  flags: [ 'N', 'Z']
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]  
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]              # Load MAR Low and INC PC
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH ]                      # Load MAR High
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, LATCHNZ, A_LD, PC_INC, EOC ]  # Use MAR to find value and LD into A, INC PC
+
+# Take the next two bites of the program as a location and add X to it. Load the value found at this new address
+# into the A register
+
+0xbd:
+  decimal: 189
+  syntax: LDA $4400,X
+  description: Load A register with Absolute,X value.
+  flags: [ 'N', 'Z']
+  length: 3
+  cycles: 4
+  mode: Absolute,X
+  steps:
+    - all: [ FETCH ]                                                              
+    - all: [ BASE, PC_OUT, RAM_OUT, X_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, MAR_LDL, PC_INC ] # Load MAR Low and INC PC 
+    - all: [ BASE, PC_OUT, RAM_OUT, ICIN, ALU_ADD, ALU_OUT, MAR_LDH, PC_INC ]            #
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, LATCHNZ, A_LD, EOC ]                       # Use MAR to LD A, latch nz flags 
+
+# Interpret the next byte of the program as the location in zero page memory;
+# interpret the two bytes beginning at that memory location as the lo, hi bytes of a second
+# location in memory, and load the Accumulator with the byte at the location obtained by adding Y
+# to that second address.
+
+0xb1:
+  decimal: 177
+  syntax: LDA ($44),Y
+  description: Load A register with Indirect,Y value
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 6
+  mode: Indirect,Y
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]                          # Load low address byte into MARL
+    - all: [ BASE, MAR_LOW, RAM_OUT, Y_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, T_LD, MAR_INC ] # Load Low ADDR in T, offset by Y
+    - all: [ BASE, MAR_LOW, RAM_OUT, ICIN, ALU_ADD, ALU_OUT, MAR_LDH ]                  # Load Low ADDR to LDH
+    - all: [ BASE, T_OUT_LHB, LH_PASS, MAR_LDL ]                                        # Load T into LDL
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, LATCHNZ, A_LD, EOC ]                      # Load MAR_OUT value into A

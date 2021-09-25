@@ -1,0 +1,26 @@
+0x8c:
+  decimal: 140
+  syntax: STY $4400
+  description: Store value in Y to Absolute memory address
+  flags: [ ]
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH ]
+    - all: [ BASE, MAR_OUT, Y_OUT_LHB, LH_PASS, RAM_IN, PC_INC, EOC ]
+
+0x84:
+  decimal: 132
+  syntax: STY $44
+  description: Store value in Y to Zero Page address
+  flags: [ ]
+  length: 3
+  cycles: 3
+  mode: Zero Page
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, MAR_LOW, Y_OUT_LHB, LH_PASS, RAM_IN, EOC ]

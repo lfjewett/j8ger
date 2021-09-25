@@ -1,0 +1,11 @@
+0x09:
+  decimal: 9
+  syntax: ORA #$44
+  description: Perform a bitwise OR of A with an Immediate byte
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 2
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, A_OUT_LHB, LATCHNZ, ALU_OR, ALU_OUT, ZCIN, A_LD, PC_INC, EOC ]

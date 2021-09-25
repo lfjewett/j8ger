@@ -1,0 +1,28 @@
+0x4c:
+  decimal: 76
+  syntax: JMP $5597
+  description: Jump to the Absolute memory address given
+  flags: [ ]
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, PC_LDH ]
+    - all: [ BASE, T_OUT_LHB, LH_PASS, PC_LDL, EOC ]
+
+0x6c:
+  decimal: 108
+  syntax: JMP ($5597)
+  description: Jump to the Indirect memory address given
+  flags: [ ]
+  length: 3
+  cycles: 5
+  mode: Indirect
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH, PC_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, PC_LDL, MAR_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, PC_LDH, EOC ]

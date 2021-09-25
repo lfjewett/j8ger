@@ -26,7 +26,7 @@
     - c_set: [ BASE, PC_INC, EOC ]
       c_unset: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD ]
     - all: [ BASE, PC_OUT, XFER_LOW, T_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, PC_LDL ]
-    - all: [ BASE, C_OUT_LHB, PC_OUT, XFER_HIGH, ICIN, ALU_ADD,ALU_OUT, PC_LDH, PC_INC, EOC ]
+    - all: [ BASE, C_OUT_LHB, PC_OUT, XFER_HIGH, ICIN, ALU_ADD, ALU_OUT, PC_LDH, PC_INC, EOC ]
 
 # Notes for 144 BCC
 # - http://forum.6502.org/viewtopic.php?f=4&t=4261

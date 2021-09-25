@@ -1,0 +1,78 @@
+0x85:
+  decimal: 133
+  syntax: STA $44
+  description: Store value in A to a Zero Page address
+  flags: [ ]
+  length: 2
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, MAR_LOW, A_OUT_LHB, LH_PASS, RAM_IN, EOC ]
+
+
+0x8d:
+  decimal: 141
+  syntax: STA $4400
+  description: Store value in A to the absolute memory address
+  flags: [ ]
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH ]
+    - all: [ BASE, MAR_OUT, A_OUT_LHB, LH_PASS, RAM_IN, PC_INC, EOC ]
+
+0x95:
+  decimal: 149
+  syntax: STA $44,X
+  description: Store value in A to Zero Page,X
+  flags: [ ]
+  length: 2
+  cycles: 4
+  mode: Zero Page
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD, PC_INC ]
+    - all: [ BASE, T_OUT_RHB, X_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, MAR_LDL ]
+    - all: [ BASE, MAR_LOW, RAM_IN, A_OUT_LHB, LH_PASS, EOC ]
+
+0x9d:
+  decimal: 157
+  syntax: STA $4400,X
+  description: Store value in A to Absolute,X
+  flags: [ ]
+  length: 3
+  cycles: 6
+  mode: Absolute,X
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH, PC_INC ]
+    - all: [ BASE, MAR_OUT, XFER_LOW, X_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, MAR_LDL ]
+    - all: [ BASE, MAR_OUT, XFER_HIGH, ICIN, ALU_ADD, ALU_OUT, MAR_LDH ]
+    - all: [ BASE, MAR_OUT, RAM_IN, A_OUT_LHB, LH_PASS, EOC ]
+
+# Interpret the next byte of the program as the location in zero page memory;
+# interpret the two bytes beginning at that memory location as the lo, hi bytes of a second
+# location in memory, and store the Accumulator at the location obtained by adding Y
+# to that second address.
+
+0x91:
+  decimal: 145
+  syntax: STA ($44),Y
+  description: Store A register with Indirect,Y value
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 6
+  mode: Indirect,Y
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]                          # Load low address byte into MARL
+    - all: [ BASE, MAR_LOW, RAM_OUT, Y_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, T_LD, MAR_INC ] # Load Low ADDR in T, offset by Y
+    - all: [ BASE, MAR_LOW, RAM_OUT, ICIN, ALU_ADD, ALU_OUT, MAR_LDH ]                  # Load Low ADDR to LDH
+    - all: [ BASE, T_OUT_LHB, LH_PASS, MAR_LDL ]                                        # Load T into LDL
+    - all: [ BASE, MAR_OUT, RAM_IN, A_OUT_LHB, LH_PASS, EOC ]                           # Store A

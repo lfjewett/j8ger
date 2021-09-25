@@ -1,0 +1,24 @@
+0x25:
+  decimal: 37
+  syntax: AND $44
+  description: Perform a bitwise AND of A with a byte at a Zero Page Address
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 3
+  mode: Zero Page
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, A_OUT_LHB, LATCHNZ, ALU_AND, ALU_OUT, ZCIN, A_LD, EOC ]
+
+0x29:
+  decimal: 41
+  syntax: AND #$44
+  description: Perform a bitwise AND of A with an Immediate value
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 2
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, A_OUT_LHB, LATCHNZ, ALU_AND, ZCIN, ALU_OUT, A_LD, PC_INC, EOC ]

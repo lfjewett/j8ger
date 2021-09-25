@@ -1,0 +1,13 @@
+0x8e:
+  decimal: 142
+  syntax: STX $4400
+  description: Store value in X to the absolute memory address
+  flags: [ ]
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH ]
+    - all: [ BASE, MAR_OUT, X_OUT_LHB, LH_PASS, RAM_IN, PC_INC, EOC ]

@@ -1,0 +1,27 @@
+0xe9:
+  decimal: 233
+  syntax: SBC #$44
+  description: SuBtract with Carry from Immediate
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 2
+  cycles: 3
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD, PC_INC ]
+    - all: [ BASE, T_OUT_LHB, A_OUT_RHB, LATCHALL, ALU_SUB, ALU_OUT, A_LD, EOC ]
+
+0xf9:
+  decimal: 249
+  syntax: SBC $4400,Y
+  description: SuBtract with Carry
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 3
+  cycles: 5
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, Y_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, ICIN, ALU_ADD, ALU_OUT, MAR_LDH, PC_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, T_LD ]
+    - all: [ BASE, T_OUT_LHB, A_OUT_RHB, LATCHALL, ALU_SUB, ALU_OUT, A_LD, EOC ]

@@ -1,0 +1,26 @@
+0x6a:
+  decimal: 106
+  syntax: ROR
+  description: Rotate A Right
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 1
+  cycles: 2
+  mode: Accumulator
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, A_OUT_LHB, LATCHALL, ALU_SHR, A_LD, EOC ]
+
+0x6e:
+  decimal: 110
+  syntax: ROR $4400
+  description: Rotate Right Absolute value
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 3
+  cycles: 5
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, MAR_LDH ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, T_LD, PC_INC ]
+    - all: [ BASE, T_OUT_LHB, LATCHALL, ALU_SHR, MAR_OUT, RAM_IN, EOC ]

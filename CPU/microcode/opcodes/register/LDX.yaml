@@ -1,0 +1,11 @@
+0xa2:
+  decimal: 162
+  syntax: LDX #$44
+  description: Load the X Register with the Immediate Value
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 3
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, LATCHNZ, X_LD, PC_INC, EOC ]

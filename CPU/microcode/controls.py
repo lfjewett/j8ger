@@ -19,6 +19,7 @@ CONTROLS = {
     'LH_PASS': np.uint32(1 << port.ALU_OE0 | 1 << port.ALU_OE1 ),
     'RH_PASS': np.uint32(1 << port.ALU_OE2),
     'ALU_OUT': np.uint32(1 << port.ALU_OE0),
+    'ALU_SHR_OUT': np.uint32(1 << port.ALU_OE1),
     'ALU_ADD': np.uint32(1 << port.ALU_OP4 | 1 << port.ALU_OP3 | 1 << port.ALU_OP1 ),
     'ALU_SUB': np.uint32(1 << port.ALU_OP4 | 1 << port.ALU_OP2 | 1 << port.ALU_OP0 ),
     'ALU_SHR': np.uint32(1 << port.ALU_OE1),

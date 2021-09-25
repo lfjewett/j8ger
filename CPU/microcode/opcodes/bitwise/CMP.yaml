@@ -1,0 +1,56 @@
+0xc9:
+  decimal: 201
+  syntax: CMP #$44
+  description: Compare immediate value with A
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 2
+  cycles: 3
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD, PC_INC ]
+    - all: [ BASE, A_OUT_RHB, T_OUT_LHB, CIN, LATCHALL, ALU_SUB, EOC ]
+
+0xd1:
+  decimal: 209
+  syntax: CMP ($44),Y
+  description: Compare (Indirect),Y value with A
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 2
+  cycles: 7
+  mode: Indirect
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]                          # Load ZP Address byte into MARL
+    - all: [ BASE, MAR_LOW, RAM_OUT, Y_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, T_LD, MAR_INC ] # Load LOW ADDR in T, offset by Y
+    - all: [ BASE, MAR_LOW, RAM_OUT, ICIN, ALU_ADD, ALU_OUT, MAR_LDH ]                  # Load HIGH ADDR to LDH
+    - all: [ BASE, T_OUT_LHB, LH_PASS, MAR_LDL ]                                        # Load T into LDL
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, T_LD ]
+    - all: [ BASE, A_OUT_RHB, T_OUT_LHB, CIN, LATCHALL, ALU_SUB, EOC ]                  # Compare A to Value from RAM(MAR)
+
+0xc4:
+  decimal: 196
+  syntax: CPY $44
+  description: Compare a Zero Page value with Y
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 2
+  cycles: 4
+  mode: Zero Page
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, MAR_LOW, RAM_OUT, RH_PASS, T_LD ]
+    - all: [ BASE, Y_OUT_RHB, T_OUT_LHB, CIN, LATCHALL, ALU_SUB, EOC ]
+
+0xe0:
+  decimal: 224
+  syntax: CPX #$44
+  description: Compare immediate value with X
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 2
+  cycles: 3
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD, PC_INC ]
+    - all: [ BASE, X_OUT_RHB, T_OUT_LHB, CIN, LATCHALL, ALU_SUB, EOC ]

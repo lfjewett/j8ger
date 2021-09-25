@@ -1,0 +1,27 @@
+0x4a:
+  decimal: 74
+  syntax: LSR
+  description: Logical Shift Right A
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 1
+  cycles: 2
+  mode: Accumulator
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, A_OUT_LHB, ZCIN, LATCHALL, ALU_SHR, ALU_SHR_OUT, A_LD, EOC ]
+
+0x4e:
+  decimal: 78
+  syntax: LSR $4400
+  description: Logical Shift Right Absolute address
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 3
+  cycles: 5
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, T_LD, PC_INC ]
+    - all: [ BASE, T_OUT_LHB, ZCIN, LATCHALL, ALU_SHR, ALU_SHR_OUT, MAR_OUT, RAM_IN, EOC ]
+    
