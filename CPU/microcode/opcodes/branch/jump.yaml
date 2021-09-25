@@ -1,0 +1,62 @@
+0x4c:
+  decimal: 76
+  syntax: JMP $5597
+  description: Jump to the Absolute memory address given
+  flags: [ ]
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, PC_LDH ]
+    - all: [ BASE, T_OUT_LHB, LH_PASS, PC_LDL, EOC ]
+
+0x6c:
+  decimal: 108
+  syntax: JMP ($5597)
+  description: Jump to the Indirect memory address given
+  flags: [ ]
+  length: 3
+  cycles: 5
+  mode: Indirect
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH, PC_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, PC_LDL, MAR_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, PC_LDH, EOC ]
+
+32:
+  decimal:
+  syntax: JSR $5597
+  description: Push the PC to the stack and Jump to absolute address. Note the return address is -2 from where the nextop is. RTS must PC + 2
+  flags: [ ]
+  length: 3
+  cycles: 8
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, XFER_HIGH, RH_PASS, T_LD ]               # Put PC HIGH into T
+    - all: [ BASE, SP_OUT, T_OUT_LHB, LH_PASS, RAM_IN]              # Store PC HIGH Byte in SP address
+    - all: [ BASE, SP_DEC, PC_OUT, XFER_LOW, RH_PASS, T_LD ]        # Dec SP, Put PC LOW into T ( 0 )
+    - all: [ BASE, SP_OUT, T_OUT_LHB, LH_PASS, RAM_IN ]             # Store PC LOW Byte in SP address
+    - all: [ BASE, SP_DEC, PC_OUT, RAM_OUT, RH_PASS, T_LD, PC_INC ] # Dec SP, Get LOW PC from RAM put in T
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, PC_LDH ]               # Load HIGH PC from RAM to PCH
+    - all: [ BASE, T_OUT_LHB, LH_PASS, PC_LDL, EOC ]                # Load LOW PC from T to PCL
+
+96:
+  decimal:
+  syntax: RTS
+  description: RTS pulls the top two bytes off the stack (low byte first) and transfers program control to that address+2
+  flags: [ ]
+  length: 1
+  cycles: 7
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, SP_INC ]
+    - all: [ BASE, SP_OUT, RAM_OUT, RH_PASS, PC_LDL, SP_INC ]
+    - all: [ BASE, SP_OUT, RAM_OUT, RH_PASS, PC_LDH ]
+    - all: [ BASE, PC_INC ]
+    - all: [ BASE, PC_INC, EOC ]

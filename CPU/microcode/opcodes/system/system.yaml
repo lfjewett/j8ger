@@ -1,0 +1,125 @@
+---
+0:
+  decimal: 0
+  syntax: NOP
+  description: No operation is performed, fetch the next instruction
+  flags: [ carry: 0, zero: 0, sign: 0, ovfl: 0, a: 0]
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]  
+    - all: [ BASE, EOC ]
+
+0xfa:
+  decimal: 250
+  syntax: RST
+  description: Reset the CPU
+  flags: [ carry: 0, zero: 0, sign: 0, ovfl: 0, a: 0]
+  length: 1
+  cycles: 8
+  mode: Implied
+  steps:
+    - all: [ FETCH ]  
+    - all: [ BASE, SP_LDL ]
+    - all: [ BASE, SP_LDH ]
+    - all: [ BASE, PC_LDL, SP_DEC ]
+    - all: [ BASE, ALU_SHR, CIN, T_LD ]
+    - all: [ BASE, ALU_SHR, ZCIN, T_OUT_LHB, T_LD ]
+    - all: [ BASE, ALU_SHR, ZCIN, T_OUT_LHB, PC_LDH ]
+    - all: [ BASE, CLR_RST, EOC ]
+
+0xFF:
+  decimal: 255
+  syntax: HLT
+  description: HALT CPU
+  flags: [ ]
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, HLT ]
+
+
+0x58:
+  decimal: 88
+  syntax: CLI
+  description: CLear Interrupt
+  flags: [ ]
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, ICLR, EOC ]
+
+0x78:
+  decimal: 120
+  syntax: SEI
+  description: SEt Interrupt
+  flags: [ ]
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, ISET, EOC ]
+
+0xFC:
+  decimal: 252
+  syntax: INT
+  description: Interupt
+  flags: [ ]
+  length: 1
+  cycles: 8
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, XFER_HIGH, ALU_SUB, CIN, T_LD ]         # Put PC HIGH into T
+    - all: [ BASE, SP_OUT, T_OUT_LHB, LH_PASS, RAM_IN]             # Store PC HIGH in SP ( 0 in 65535 )
+    - all: [ BASE, SP_DEC, PC_OUT, XFER_LOW, ALU_SUB, CIN, T_LD ]  # Dec SP, Put PC LOW into T ( 0 )
+    - all: [ BASE, SP_OUT, T_OUT_LHB, LH_PASS, RAM_IN, SP_DEC ]    # Store PC LOW in SP ( 3 in 65534)
+    - all: [ BASE, MAR_LDL ]                                       # Load 0 into MARL
+    - all: [ BASE, MAR_LOW, RAM_OUT, PC_LDL, MAR_INC ]
+    - all: [ BASE, MAR_LOW, RAM_OUT, PC_LDH, ICLR, EOC ]
+
+0xCB:
+  decimal: 203
+  syntax: WAI
+  description: CPU stops all activity and waits for the INT line. Upon INT going low the CPU can continue from where it left off. Useful for DMA access.
+  flags: [ ]
+  length: 1
+  cycles: 3
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, WAIT ]
+    - all: [ BASE, EOC]
+    
+0xF8:
+  decimal: 248
+  syntax: NON
+  description: NOP. Called only by WAI directy in hardware. Not user callable.
+  flags: [ ]
+  length: 1
+  cycles: 1
+  mode: Implied
+  steps:
+    - all: [ BASE, IR_IN, EOC]
+
+0x40:
+  decimal: 64
+  syntax: RTI
+  description: Return From Interupt
+  flags: [ ]
+  length: 1
+  cycles: 6
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, SP_INC ]
+    - all: [ BASE, SP_OUT, RAM_OUT, FLD, SP_INC ]
+    - all: [ BASE, SP_OUT, RAM_OUT, XFER_DB, ALU_SUB, ZCIN, T_LD, SP_INC ]
+    - all: [ BASE, SP_OUT, RAM_OUT, XFER_DB, ALU_SUB, ICIN, PC_LDH ]
+    - all: [ BASE, T_OUT_LHB, LH_PASS, PC_LDL, ISET, EOC]

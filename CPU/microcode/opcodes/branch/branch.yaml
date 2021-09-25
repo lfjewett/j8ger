@@ -1,0 +1,83 @@
+0xd0:
+  decimal: 208
+  syntax: BNE
+  description: Branch when not equal. If the Z = 0 Then branch
+  flags: [ ]
+  length: 2
+  cycles: 4
+  mode: Relative
+  steps:
+    - all: [ FETCH ]
+    - z_set: [ BASE, PC_INC, EOC ]                                                  # z:1 ( A zero was the result )     Branch Not Taken
+      z_unset: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD ]                             # z:0 ( A non-zero was the result ) Branch Taken
+    - all: [ BASE, PC_OUT, XFER_LOW, T_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, PC_LDL ]
+    - all: [ BASE, C_OUT_LHB, PC_OUT, XFER_HIGH, ICIN, ALU_ADD, ALU_OUT, PC_LDH, PC_INC, EOC ]
+
+0x90:
+  decimal: 144
+  syntax: BCC
+  description: Branch on carry clear
+  flags: [ ]
+  length: 2
+  cycles: 4
+  mode: Relative
+  steps:
+    - all: [ FETCH ]
+    - c_set: [ BASE, PC_INC, EOC ]
+      c_unset: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD ]
+    - all: [ BASE, PC_OUT, XFER_LOW, T_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, PC_LDL ]
+    - all: [ BASE, C_OUT_LHB, PC_OUT, XFER_HIGH, ICIN, ALU_ADD,ALU_OUT, PC_LDH, PC_INC, EOC ]
+
+# Notes for 144 BCC
+# - http://forum.6502.org/viewtopic.php?f=4&t=4261
+# - https://retrocomputing.stackexchange.com/questions/7327/6502-branch-offset-calculation
+# A useful way to think about it is that a page crossing is marked by the carry being different than the MSB of the branch-offset. IOW, if the branch-offset is positive (i.e. MSB=0), then a HIGH carry indicates an page crossing, whereas if the branch-offset is negative (i.e. MSB=1), then a LOW carry indicates a page crossing. To then adjust the high byte, you can add the carry + a sign-extension of the branch-offset (i.e. $FF for MSB = 1 and $00 MSB=0) which effectively either adds or subtracts 1 as appropriate. Like this:
+
+# PCL := PCL + BranchOffset
+#If (C.OUT XOR BranchOffset.7)
+#   PCH := PCH + C.OUT + SignExtend(BranchOffset)
+
+0xf0:
+  decimal: 240
+  syntax: BEQ
+  description: Branch when equal. If the Z = 1 Then branch
+  flags: [ ]
+  length: 2
+  cycles: 4
+  mode: Relative
+  steps:
+    - all: [ FETCH ]
+    - z_set: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD ]                  # z:1 ( A zero was the result )     Branch Taken
+      z_unset: [ BASE, PC_INC, EOC ]                                   # z:0 ( A non-zero was the result ) Branch Not Taken
+    - all: [ BASE, PC_OUT, XFER_LOW, T_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, PC_LDL ]
+    - all: [ BASE, C_OUT_LHB, PC_OUT, XFER_HIGH, ICIN, ALU_ADD, ALU_OUT, PC_LDH, PC_INC, EOC ]
+
+0xb0:
+  decimal: 176
+  syntax: BCS
+  description: Branch on carry set
+  flags: [ ]
+  length: 2
+  cycles: 4
+  mode: Relative
+  steps:
+    - all: [ FETCH ]
+    - c_set: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD ]
+      c_unset: [ BASE, PC_INC, EOC ]
+    - all: [ BASE, PC_OUT, XFER_LOW, T_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, PC_LDL ]
+    - all: [ BASE, C_OUT_LHB, PC_OUT, XFER_HIGH, ICIN, ALU_ADD, ALU_OUT, PC_LDH, PC_INC, EOC ]
+
+0x30:
+  decimal: 48
+  syntax: BMI
+  description: Branch on MInus
+  flags: [ ]
+  length: 2
+  cycles: 4
+  mode: Relative
+  steps:
+    - all: [ FETCH ]
+    - n_set: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD ]
+      n_unset: [ BASE, PC_INC, EOC ]
+    - all: [ BASE, PC_OUT, XFER_LOW, T_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, PC_LDL ]
+    - all: [ BASE, C_OUT_LHB, PC_OUT, XFER_HIGH, ICIN, ALU_ADD, ALU_OUT, PC_LDH, PC_INC, EOC ]

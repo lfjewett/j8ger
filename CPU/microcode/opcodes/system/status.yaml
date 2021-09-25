@@ -1,0 +1,26 @@
+0x18:
+  decimal: 24
+  syntax: CLC
+  description: Clear the carry flag
+  flags: [ ]
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, ALU_ADD, LATCHCV, EOC ]
+
+56:
+  decimal:
+  syntax: SEC
+  description: Set the carry flag
+  flags: [ ]
+  length: 1
+  cycles: 4
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - c_set: [ BASE, EOC ]
+      c_unset: [ BASE, T_LD, FOE ]
+    - all: [ BASE, T_OUT_LHB, CIN, LATCHALL, ALU_ADD, ALU_OUT, FLD, EOC ]
+

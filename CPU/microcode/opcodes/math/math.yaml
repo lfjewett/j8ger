@@ -1,0 +1,130 @@
+0x69:
+  decimal: 105
+  syntax: ADC #$44
+  description: Add with carry the A Register and the Immediate Value
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 2
+  cycles: 2
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, A_OUT_LHB, LATCHALL, ALU_ADD, ALU_OUT, A_LD, PC_INC, EOC ]
+
+0x6d:
+  decimal: 109
+  syntax: ADC $4400
+  description: Add with carry the A Register and value at the Absolute memory address
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDH, PC_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, A_OUT_LHB, LATCHALL, ALU_ADD, ALU_OUT, A_LD, EOC ]
+
+0x7d:
+  decimal: 125
+  syntax: ADC $4400,X
+  description: Add with Carry Absolute,X
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 3
+  cycles: 4
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, X_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, ICIN, ALU_ADD, ALU_OUT, MAR_LDH, PC_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, A_OUT_LHB, LATCHALL, ALU_ADD, ALU_OUT, A_LD, EOC]
+
+0x88:
+  decimal: 136
+  syntax: DEY
+  description: Decrement Y by one
+  flags: [ 'N', 'Z']
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, Y_OUT_RHB, ZCIN, LATCHNZ, ALU_SUB, ALU_OUT, Y_LD, EOC ]
+
+0xca:
+  decimal: 202
+  syntax: DEX
+  description: DEcrement X by one
+  flags: [ 'N', 'Z']
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, X_OUT_RHB, ZCIN, LATCHNZ, ALU_SUB, ALU_OUT, X_LD, EOC ]
+
+0xe9:
+  decimal: 233
+  syntax: SBC #$44
+  description: SuBtract with Carry from Immediate
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 2
+  cycles: 3
+  mode: Immediate
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, T_LD, PC_INC ]
+    - all: [ BASE, T_OUT_LHB, A_OUT_RHB, LATCHALL, ALU_SUB, ALU_OUT, A_LD, EOC ]
+
+0xf9:
+  decimal: 249
+  syntax: SBC $4400,Y
+  description: SuBtract with Carry
+  flags: [ 'V', 'N', 'Z', 'C']
+  length: 3
+  cycles: 5
+  mode: Absolute
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, Y_OUT_LHB, ICIN, ALU_ADD, ALU_OUT, MAR_LDL, PC_INC ]
+    - all: [ BASE, PC_OUT, RAM_OUT, ICIN, ALU_ADD, ALU_OUT, MAR_LDH, PC_INC ]
+    - all: [ BASE, MAR_OUT, RAM_OUT, RH_PASS, T_LD ]
+    - all: [ BASE, T_OUT_LHB, A_OUT_RHB, LATCHALL, ALU_SUB, ALU_OUT, A_LD, EOC ]
+
+0xc8:
+  decimal: 200
+  syntax: INY
+  description: INcrement Y by one
+  flags: [ 'N', 'Z']
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, Y_OUT_RHB, CIN, LATCHNZ, ALU_ADD, ALU_OUT, Y_LD, EOC ]
+
+0xe8:
+  decimal: 232
+  syntax: INX
+  description: INcrement X by one
+  flags: [ 'N', 'Z']
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, X_OUT_RHB, CIN, LATCHNZ, ALU_ADD, ALU_OUT, X_LD, EOC ]
+
+
+0xe6:
+  decimal: 230
+  syntax: INC $44
+  description: INCrement memory
+  flags: [ 'N', 'Z']
+  length: 2
+  cycles: 4
+  mode: Zero Page
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, PC_OUT, RAM_OUT, RH_PASS, MAR_LDL, PC_INC ]
+    - all: [ BASE, MAR_LOW, RAM_OUT, RH_PASS, T_LD ]
+    - all: [ BASE, T_OUT_RHB, LATCHNZ, CIN, ALU_ADD, ALU_OUT, MAR_LOW, RAM_IN, EOC ]

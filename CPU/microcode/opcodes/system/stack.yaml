@@ -1,0 +1,61 @@
+72:
+  decimal:
+  syntax: PHA
+  description: Push the A register to the stack
+  flags: [ ]
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, SP_OUT, A_OUT_LHB, LH_PASS, RAM_IN, SP_DEC, EOC ]
+
+104:
+  decimal:
+  syntax: PLA
+  description: Pull the A register from the stack
+  flags: [ ]
+  length: 1
+  cycles: 3
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, SP_INC ]
+    - all: [ BASE, SP_OUT, RAM_OUT, RH_PASS, A_LD, EOC ]
+
+8:
+  decimal:
+  syntax: PHP
+  description: Push processor status to stack Stored Format is OSZC
+  flags: [ ]
+  length: 1
+  cycles: 2
+  mode:
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, SP_OUT, RAM_IN, FOE, SP_DEC, EOC ]
+
+40:
+  decimal:
+  syntax: PLP
+  description: Pull processor status to stack Stored Format is OSZC
+  flags: [ ]
+  length: 1
+  cycles: 3
+  mode:
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, SP_INC ]
+    - all: [ BASE, SP_OUT, RAM_OUT, RH_PASS, LATCHALL, FLD, EOC ]
+
+254:
+  decimal:
+  syntax: DECSP
+  description: Decrement the Stack Pointer... Custom Instruction?
+  flags: [ ]
+  length: 1
+  cycles: 2
+  mode: Implied
+  steps:
+    - all: [ FETCH ]
+    - all: [ BASE, SP_DEC, EOC ]
