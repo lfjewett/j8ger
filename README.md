@@ -1,7 +1,7 @@
 # j8ger
-An 8 bit homebrew computer and entertainment system
+An 8 bit homebrew computer
 
-For this project i've taken inspiration from existing CPUs I read about. Mainly the 6502, 6809, BMOW1, and Gigatron. The final system should have capabilities similar to or exceeding the original NES and C64.
+For this project I've taken inspiration from existing CPUs I read about. Mainly the 6502, 6809, BMOW1, and Gigatron. The final system should have capabilities similar to or exceeding the original NES and C64.
 
 #### CPU:
 * [Architecture Diagram](./docs/j8ger-arch.png)
@@ -13,6 +13,8 @@ For this project i've taken inspiration from existing CPUs I read about. Mainly 
 * 1 (16-bit) Address Register
 * 1 (16-bit) Program Counter
 * 1 (16-bit) Stack Pointer
+* 1 (16-bit) User Index Register
+* Movable Zero Page
 * Compatible with 6502 Assembly ( *Mostly )
 
 #### GPU:

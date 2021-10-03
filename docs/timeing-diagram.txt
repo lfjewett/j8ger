@@ -1,0 +1,26 @@
+{ "signal": [
+  { "node":                        "...A..............B..............C.....................", period: 1, phase: .15},
+  { "name": "Data",         "wave": "x....6............7................x.....", data: ["DECODE", "EXECUTE", ""] },
+  [ 'CLOCKS',
+  { "name": "CTL_CLK",      "wave": "H..l..............H..............l.......", period: 1},
+  { "name": "CPU_CLK",      "wave": "l....H..............l..............H.....", period: 1},
+  { "name": "MSK_CLK",      "wave": "h......l..............h..............l", period: 1},
+  ],
+  {},
+  [ 'DECODING',
+   { "name": "CTL_ASSERT",  "wave": "x..................3...............x.....", period: 1, data: ["(AC574) 4ns CTRL Word Asserted"]},
+   { "name": "REG_DECODE",  "wave": "x...................3..............x.....", period: 1, phase: -0.5, data: ["(AC138) 6ns CTRL Word Decoded"]},
+  ],
+   {},
+   { "name": "REG_BUS",     "wave": "x....................3.............x.....", period: 1,  phase: -.75, data: ["(AC245) 5ns Register Value on bus"]},
+   { "name": "ASYNC_LD",    "wave": "x..................................5.x...", period: 1, data: ["ASYNC LD"]},
+   { "name": "INC/DEC/LD",  "wave": "x......4......7....................x.....", period: 1, data: ["INC/DEC/LD (30ns)", "NEW ADDRESS VALID"]},
+
+
+], head:{
+   text:'J8ger CPU 8Mhz',
+   tick: '. . . .0 4 8 12 16 20 24 28 32 36 40 44 48 52 56 0 4 8 12 16 20 24 28 32 36 40 44 48 52 56 0 4 8 12 16 20 24 28 ',
+ },
+ "config": { hscale: 1,  },
+  "edge"  : ['A<->B 60ns', 'B<->C 60ns']
+}
